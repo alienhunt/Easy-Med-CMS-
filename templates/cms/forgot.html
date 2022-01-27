@@ -1,0 +1,93 @@
+{% extends 'cms/base.html' %}
+
+{% load static %}
+
+    {% block breadcrumbs %}
+        {% if user.is_authenticated %}
+        <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
+        <li class="breadcrumb-item">Change</li>
+        {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'login' %}">Login</a></li>
+        <li class="breadcrumb-item">Forgot</li>
+        {% endif %}
+    {% endblock %}
+    
+{% block main_block %}
+
+    <main class="main-body">
+        <div id="forgot-validate"></div>
+        <header class="row welcome-section">    
+            <div class="col-lg-12 text-center contain">
+                {% if user.is_authenticated %}
+				<h1><strong>Change Password?</strong></h1>
+                {% else %}
+			    <h1><strong>Forgot Password?</strong></h1>
+                {% endif %}
+            </div>
+	    </header>
+            
+        {% comment %} <hr /> {% endcomment %}
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-lg-12 text-center contain">
+                {% if user.is_authenticated %}
+				<h1>Enter your email or contact number to get an OTP.</h1>
+                {% else %}
+				<h1>Don't worry just enter your email or contact number.</h1>
+                {% endif %}
+            </div>
+            <div class="col-lg-12 space"></div>
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-8">
+                    <div class="card text-center login">
+                        <div class="card-body kill-padding">
+                            <div class="row">
+                                <div class="col-lg-6 ">
+                                    <img src="{% static 'cms/img/forgot_password.svg' %}" class="card-img-top gradient login" height="100%"/>
+                                </div>
+                                <div class="col-lg-6 text-center ">
+                                    <h2 class="card-title"></h2>
+                                    <h1 class="card-title"><b><span class="dodger">Reset Request</span></b></h1>
+                                    <form class="text-center" action="" method="POST">
+                                        
+                                        {% csrf_token %}
+                                        <div class="row" data-toggle="tooltip" dataplacement="right">
+                                            <div class="col-lg-12 space"></div>
+                                            <div class="col-lg-12 fas fa-envelope dodger side-header" title="Email"></div>
+                                            <div class="col-lg-12" title="Email">
+                                                <input class="inputs text-center dodger side-content" type='email'id="email" name='email' placeholder="Email" pattern="^[a-z0-9]+@[a-z0-9]+.[a-z]{2,}$"/>
+                                            </div> 
+                                            <div class="col-lg-12 space"></div>
+                                            <div class="col-lg-12 text-center">
+                                                <p class="side-header dodger">
+                                                    <strong>--- OR ---</strong>
+                                                </p>
+                                            </div>
+                                            {% comment %} <div class="col-lg-12 space"></div> {% endcomment %}
+                                            <div class="col-lg-12 fas fa-phone dodger side-header" title="phone"></div>
+                                            <div class="col-lg-12" title="phone">
+                                                <input class="inputs text-center dodger side-content" type='tel' id="contact" name='contact' placeholder="contact" pattern="^[6-9][0-9]{9}$"/>
+                                            </div> 
+                                            <div class="col-lg-12 space"></div> 
+                                            <div class="col-lg-12">
+                                                <input class="btn btn-primary side-content" type='button' value="Send OTP" onclick="forgotValidate();" id="sub"/>
+                                            </div>                
+                                            <div class="col-lg-12 space"></div>                         
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+        </div>
+
+    <div class="space"></div>
+    </main>
+
+{% endblock %}

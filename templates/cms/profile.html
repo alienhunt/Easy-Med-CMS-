@@ -1,0 +1,105 @@
+{% extends 'cms/base.html' %}
+
+{% load static %}
+
+
+            {% block breadcrumbs %}
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            {% endblock %}
+    
+
+{% block main_block %}
+
+    {% if show == True %}
+        <div class="index"></div>
+    {% endif %}
+   
+   <main class="main-body">
+	    <header class="row welcome-section">    
+            <div class="col-lg-12 text-center contain">
+				<h2><strong>Hey {{user.first_name}}</strong></h2>
+            </div>
+            <div class="col-lg-1">
+            </div>
+            <div class="col-lg-10 text-center">
+		    <p class="main-content">Welcome to your profile page!</p>
+            </div>
+            <div class="col-lg-1">
+            </div>
+	    </header>
+            
+        {% comment %} <hr /> {% endcomment %}
+        
+		<div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form method="POST" action="" enctype="multipart/form-data" class="modal fade" id="cancelModal">
+                        {% csrf_token %}
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header ">
+                                    <h4 class="modal-title">Update Profile</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    {{form.as_p}}
+                                </div>
+                                <div class="modal-footer text-center">
+                                    <button data-dismiss="modal" class="btn btn-danger modal-inp">NO</button>
+                                    <input type="submit" class="btn btn-primary modal-inp" value="YES" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-4">
+                    <div class="card pointer">
+                        {% if "null" not in contact.profile_pic %}
+                            <img src="{{ contact.profile_pic.url }}" class="card-img-top" height="400px;" alt="profile picture">
+                        {% else %}
+                        {% if contact.gender == "Male" %}
+                            <img src="{% static 'cms/img/male_avatar.svg' %}" class="card-img-top gradient" height="400px;"/>
+                        {% else %}
+                            <img src="{% static 'cms/img/female_avatar.svg' %}" class="card-img-top gradient" height="400px;"/>
+                        {% endif %}
+                        {% endif %}
+                        <div class="card-body">
+                            <label datatoggle="tooltip" dataplacement="right"></label>
+                            <div class="top">
+                                <h2 class="card-title-prof pointer" ><b>{{user.first_name}}</b></h2>
+                                <a class="card-icon fas fa-user-edit side-header dodger pointer" data-toggle="modal" data-target="#cancelModal" title="update profile"></a>
+                            </div>
+                            <hr>
+                            <h4 class="card-text-prof bg-fade pointer" >{{age}}</h4>
+                            <hr>
+                            <p class="card-text-prof bio pointer" >{{contact.gender}}</p>
+                            <hr>
+                            <p class="card-text-prof bio pointer" ><b>{{contact.dob}}</b></p>
+                            <hr>
+                            <p class="card-text-prof bio pointer" >{{contact.address}}</p>
+                            <hr>
+                            <p class="card-text-prof bio pointer" ><b> <u>+91</u>&nbsp;{{contact.phone}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="space"></div>
+        <div class="container-fluid">   
+            <div class="row">
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-4 text-center">
+                    <a class="btn btn-primary" href="{% url 'forgot' %}">Change Password</a>
+                </div>
+                <div class="col-lg-">
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+{% endblock %}
+
